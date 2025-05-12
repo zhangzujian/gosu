@@ -27,10 +27,10 @@ jobs:
       - name: download
         run: |
           # find and download the latest release for testing
-          tags="$(git ls-remote --tags https://github.com/tianon/gosu.git | cut -d/ -f3 | cut -d^ -f1 | sort -urV)"
+          tags="$(git ls-remote --tags https://github.com/${{ github.repository }}.git | cut -d/ -f3 | cut -d^ -f1 | sort -urV)"
           for tag in $tags; do
             echo >&2 "checking $tag ..."
-            url="https://github.com/tianon/gosu/releases/download/$tag"
+            url="https://github.com/${{ github.repository }}/releases/download/$tag"
             if wget -O SHA256SUMS "$url/SHA256SUMS" && [ -s SHA256SUMS ]; then
               files="$(grep -oE '[ *]gosu-[^.]+$' SHA256SUMS | grep -oE 'gosu-.*$')"
               for file in $files; do
